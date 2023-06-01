@@ -23,7 +23,7 @@ app.get("/", (req, res) => res.send("Server up and running"));
 app.use("/api/todo", todo);
 
 // setting up port
-const PORT = process.env.PORT || 8000;
+const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {
     console.log(`server is running on http://localhost:${PORT}`);
