@@ -153,11 +153,14 @@ button {
     font-size: 2rem;
 
     .label {
-        margin-bottom: 0.8rem;
+        margin-bottom: 1rem;
     }
 
     .input {
-        margin-bottom: 2rem;
+        margin-bottom: 2rem; /* Adjust the margin bottom as needed */
+        padding: 0.5rem;
+        font-size: 1rem;
+        width: 100%;
     }
 }
 

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom"; // added
 
 function TodoCard({ data }) {
     const { _id, title, description } = data;
@@ -37,11 +38,15 @@ export function ShowTodoList() {
 
     return (
         <section className="container">
+            <Link to="/create-todo" className="button-new">
+                <button className="button">New</button>
+            </Link>
             <section className="contents">
                 <h1>TODO</h1>
                 <ul className="list-container">
                     {todo.map((data) => (
-                        <TodoCard data={data} />
+                        //map need to have individual key warning fixed
+                        <TodoCard key={data._id} data={data} />
                     ))}
                 </ul>
             </section>
