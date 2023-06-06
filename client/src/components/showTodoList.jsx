@@ -5,25 +5,27 @@ import { UpdateTodo } from "./updateTodo";
 
 function TodoCard({ data, handleEdit, handleDelete }) {
     const { _id, title, description } = data;
-
+  
     return (
-        <li key={_id}>
-            <div className="title-description">
-                <h3>{title}</h3>
-                <p>{description}</p>
-            </div>
-
-            <div className="text-red-600 dark:text-blue-600">
-                <button className="button" name={_id} onClick={handleEdit}>
-                    edit
-                </button>
-                <button className="button" name={_id} onClick={handleDelete}>
-                    delete
-                </button>
-            </div>
-        </li>
+      <div className="w-1/4 px-4 mb-8">
+        <div className="bg-white dark:bg-gray-900 shadow-md rounded-md p-4">
+          <h3 className="text-lg text-black font-bold mb-2 dark:text-white font-bold mb-2">
+            {title}
+          </h3>
+          <p className="text-gray-700 dark:text-gray-300">{description}</p>
+          <div className="mt-4">
+            <button className="button" name={_id} onClick={handleEdit}>
+              Edit
+            </button>
+            <button className="button" name={_id} onClick={handleDelete}>
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
     );
-}
+  }
+
 
 export function ShowTodoList() {
     const [todo, setTodo] = useState([]);
@@ -70,7 +72,7 @@ export function ShowTodoList() {
     }
 
     return (
-        <section className="container">
+        <section className="container mx-auto px-4 shadow-2xl">
             <Link to="/create-todo" className="button-new">
                 <button className="button">New</button>
             </Link>
