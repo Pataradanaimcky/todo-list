@@ -1,5 +1,3 @@
-// src/components/createTodo.jsx
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -15,12 +13,6 @@ export function CreateTodo() {
     function handleSubmit(e) {
         e.preventDefault();
 
-        const todo = {
-            title: data.title,
-            description: data.description,
-        };
-
-        console.log({ todo });
         axios
             .post("http://localhost:4000/api/todo", data)
             .then((res) => {
@@ -35,11 +27,12 @@ export function CreateTodo() {
 
     return (
         <section className="container">
-            <Link to="/" className="button-back">
-                <button type="button" className="button">
+            <Link to="/">
+                <button type="button" className="button button-back">
                     back
                 </button>
             </Link>
+
             <section className="contents">
                 <form
                     onSubmit={handleSubmit}
