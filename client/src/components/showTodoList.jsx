@@ -13,7 +13,7 @@ function TodoCard({ data, handleEdit, handleDelete }) {
                 <p>{description}</p>
             </div>
 
-            <div className="button-container">
+            <div className="text-red-600 dark:text-blue-600">
                 <button className="button" name={_id} onClick={handleEdit}>
                     edit
                 </button>
@@ -79,6 +79,7 @@ export function ShowTodoList() {
                 <ul className="list-container">
                     {todo.map((data) => (
                         <TodoCard
+                            key={data._id} // Add a unique key prop
                             data={data}
                             handleEdit={handleEdit}
                             handleDelete={handleDelete}
