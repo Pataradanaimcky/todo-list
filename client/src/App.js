@@ -11,9 +11,9 @@ function App() {
     <ThemeProvider>
       <ThemeContext.Consumer>
         {(context) => (
-          <div className={`app-contents`}>
+          <div className={`app-contents min-h-screen bg-slate-50 dark:bg-slate-950`}>
             <button
-              className="bg-red"
+              className={`bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded`}
               onClick={context.toggleTheme}
             >
               {context.theme === "light" ? "Dark Mode" : "Light Mode"}
