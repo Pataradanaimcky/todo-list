@@ -10,9 +10,6 @@ A simple Todo application built with React and Node.js.
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
-- [API](#api)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
