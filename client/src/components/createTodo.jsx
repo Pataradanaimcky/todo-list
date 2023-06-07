@@ -4,6 +4,8 @@ import axios from "axios";
 
 export function CreateTodo() {
   const [data, setData] = useState({ title: "", description: "" });
+  const [showDescriptionError, setShowDescriptionError] = useState(false);
+  const [showCompleteMessage, setShowCompleteMessage] = useState(false);
 
   function handleChange(e) {
     setData((data) => ({ ...data, [e.target.name]: e.target.value }));
@@ -12,10 +14,17 @@ export function CreateTodo() {
   function handleSubmit(e) {
     e.preventDefault();
 
+    if (data.description.trim() === "") {
+      setShowDescriptionError(true);
+      return; // Return early to prevent form submission
+    }
+
     axios
       .post("http://localhost:4000/api/todo", data)
       .then((res) => {
         setData({ title: "", description: "" });
+        setShowDescriptionError(false);
+        setShowCompleteMessage(true); // Show the complete message
         console.log(res.data.message);
       })
       .catch((err) => {
@@ -32,8 +41,6 @@ export function CreateTodo() {
 
     setData((data) => ({ ...data, description: limitedDescription }));
   }
-
-  const isDescriptionEmpty = data.description.trim() === "";
 
   return (
     <div className="max-w-md mx-auto my-8 bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-white overflow-hidden">
@@ -78,21 +85,17 @@ export function CreateTodo() {
             <label className="text-2xl text-black dark:text-white" htmlFor="description">
               Description
             </label>
-            <div className="relative rounded-md shadow-md">
-              <textarea
-                name="description"
-                placeholder="Please input a description (100 words max)"
-                value={data.description}
-                onChange={handleDescriptionChange}
-                className={`block w-full rounded-md border-0 py-2 px-3 shadow-md resize-none focus:outline-none focus:ring-2 focus:ring-blue-400 ${
-                  isDescriptionEmpty ? 'border-red-500' : ''
-                }`}
-                rows="4"
-              ></textarea>
-              {isDescriptionEmpty && (
-                <p className="text-red-500 text-sm mt-1">Please enter a description.</p>
-              )}
-            </div>
+            <textarea
+              name="description"
+              placeholder="Please input a description (100 words max)"
+              value={data.description}
+              onChange={handleDescriptionChange}
+              className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-md placeholder-gray-400 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
+              rows="4"
+            ></textarea>
+            {showDescriptionError && (
+              <p className="text-red-500 text-sm mt-1">Please enter a description.</p>
+            )}
           </div>
           <div className="flex justify-end">
             <button
@@ -116,9 +119,11 @@ export function CreateTodo() {
               Create Todo
             </button>
           </div>
+          {showCompleteMessage && (
+            <p className="text-green-500 text-sm mt-4">Todo created successfully!</p>
+          )}
         </form>
       </div>
     </div>
   );
 }
-

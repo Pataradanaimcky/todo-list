@@ -39,86 +39,95 @@ function TodoCard({ data, handleEdit, handleDelete }) {
 }
 
 export function ShowTodoList() {
-  const [todo, setTodo] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [id, setId] = useState("");
-  const [update, setUpdate] = useState(false);
-
-  useEffect(() => {
-    axios
-      .get("http://localhost:4000/api/todo")
-      .then((res) => {
-        console.log(res.data);
-        setTodo(res.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
+    const [todo, setTodo] = useState([]);
+    const [open, setOpen] = useState(false);
+    const [id, setId] = useState("");
+    const [update, setUpdate] = useState(false);
+  
+    useEffect(() => {
+      axios
+        .get("http://localhost:4000/api/todo")
+        .then((res) => {
+          console.log(res.data);
+          setTodo(res.data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    }, [update]);
+  
+    function handleEdit(e) {
+      setId(e.target.name);
+      setOpen(true);
+    }
+  
+    function handleUpdate() {
+      console.log("update:", update, !update);
+      setUpdate(!update);
+    }
+  
+    function handleDelete(e) {
+      axios.delete(`http://localhost:4000/api/todo/${e.target.name}`);
+  
+      setTodo((data) => {
+        return data.filter((todo) => todo._id !== e.target.name);
       });
-  }, [update]);
-
-  function handleEdit(e) {
-    setId(e.target.name);
-    setOpen(true);
-  }
-
-  function handleUpdate() {
-    console.log("update:", update, !update);
-    setUpdate(!update);
-  }
-
-  function handleDelete(e) {
-    axios.delete(`http://localhost:4000/api/todo/${e.target.name}`);
-
-    setTodo((data) => {
-      return data.filter((todo) => todo._id !== e.target.name);
-    });
-  }
-
-  function handleClose() {
-    setId("");
-    setOpen(false);
-  }
-
-  return (
-    <section className="bg-slate-50 dark:bg-slate-950">
-      <div className="container mx-auto px-4">
-        <div className="flex justify-between items-center mt-8 mb-4"> {/* Update the div */}
-          <h1 className="box-decoration-clone bg-gradient-to-r from-indigo-600 to-pink-500 text-white px-2">TODO</h1>
-          <Link to="/create-todo" className="button-new">
-            <button
-              className="text-xl text-white bg-sky-500/75 dark:bg-gray-700 hover:bg-sky-500 hover:text-white dark:hover:bg-gray-800 active:bg-sky-500/50 dark:active:bg-gray-600 focus:outline-none focus:ring focus:ring-violet-300 rounded-lg shadow-xl px-6 py-3"
-            >
-              New
-            </button>
-          </Link>
-        </div>
-        <section className="contents">
-          <div className="flex flex-wrap flex-row">
-            {todo.map((data) => (
-              <TodoCard
-                key={data._id}
-                data={data}
-                handleEdit={handleEdit}
-                handleDelete={handleDelete}
-              />
-            ))}
+    }
+  
+    function handleClose() {
+      setId("");
+      setOpen(false);
+    }
+  
+    const totalTodos = todo.length;
+    const completedTodos = todo.filter((t) => t.progress === 100).length;
+  
+    return (
+      <section className="bg-slate-50 dark:bg-slate-950">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-between items-center mt-8 mb-4">
+            <h1 className="box-decoration-clone bg-gradient-to-r from-indigo-600 to-pink-500 text-white px-2">
+              TODO
+            </h1>
+            <Link to="/create-todo" className="button-new">
+              <button className="text-xl text-white bg-sky-500/75 dark:bg-gray-700 hover:bg-sky-500 hover:text-white dark:hover:bg-gray-800 active:bg-sky-500/50 dark:active:bg-gray-600 focus:outline-none focus:ring focus:ring-violet-300 rounded-lg shadow-xl px-6 py-3">
+                New
+              </button>
+            </Link>
           </div>
-        </section>
-        {open && (
-          <section className="update-container">
-            <div className="update-contents">
-              <p onClick={handleClose} className="close">
-                &times;
-              </p>
-              <UpdateTodo
-                _id={id}
-                handleClose={handleClose}
-                handleUpdate={handleUpdate}
-              />
+          <section className="contents">
+            <div className="flex flex-wrap flex-row">
+              {todo.map((data) => (
+                <TodoCard
+                  key={data._id}
+                  data={data}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              ))}
             </div>
           </section>
-        )}
-      </div>
-    </section>
-  );
-}
+          <section className="progress-section">
+            <p>
+              Total Todos: {totalTodos} | Completed: {completedTodos}
+            </p>
+          </section>
+          {open && (
+            <section className="update-container">
+              <div className="update-contents">
+                <p onClick={handleClose} className="close">
+                  &times;
+                </p>
+                <UpdateTodo
+                  _id={id}
+                  handleClose={handleClose}
+                  handleUpdate={handleUpdate}
+                />
+              </div>
+            </section>
+          )}
+        </div>
+      </section>
+    );
+  }
+  
