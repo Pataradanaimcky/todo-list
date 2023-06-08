@@ -27,54 +27,38 @@ The frontend of the application is built with React, while the backend is built 
 To run the Todo App locally, follow these steps:
 
 1. Clone the repository:
-
+```
 git clone https://github.com/your-username/todo-app.git
-
-css
-Copy code
+```
 
 2. Navigate to the project directory:
-
+```
 cd todo-app
-
-markdown
-Copy code
-
+```
 3. Install the dependencies for the frontend:
-
+```
 cd client
 npm install
-
-markdown
-Copy code
-
+```
 4. Install the dependencies for the backend:
-
+```
 cd ../server
 npm install
-
-markdown
-Copy code
-
+```
 5. Create a MongoDB database and obtain the connection URI.
 
 6. Create a `.env` file in the `server` directory and add the following environment variables:
-
+```
 PORT=4000
 MONGODB_URI=<your-mongodb-uri>
-
-markdown
-Copy code
-
+```
 7. Start the development server for the frontend:
-
+```
 cd ../client
 npm start
-
-markdown
-Copy code
-
+```
 8. Start the development server for the backend:
-
+```
 cd ../server
 npm start
+```
