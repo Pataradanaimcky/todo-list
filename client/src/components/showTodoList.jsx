@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { UpdateTodo } from "./updateTodo";
 
 
-function TodoCard({ data, handleEdit, handleDelete }) {
+export function TodoCard({ data, handleEdit, handleDelete }) {
   const { _id, title, description, priority, dateAdded, status } = data;
 
   const formattedDate = new Date(dateAdded).toLocaleDateString();
