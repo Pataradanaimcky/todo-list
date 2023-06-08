@@ -16,29 +16,34 @@ export function UpdateTodo({ _id, handleClose, handleUpdate }) {
     axios
       .get(`http://localhost:4000/api/todo/${_id}`)
       .then((res) => {
-        const { title, description } = res.data;
-        setData({ title, description });
+        const { title, description, dateAdded } = res.data; // Extract the dateAdded field
+        setData({ title, description, dateAdded }); // Add dateAdded to the state
       })
       .catch((err) => {
         console.log("Failed to fetch todo");
         console.log(err.message);
       });
   }, [_id]);
-
+  
   function handleChange(e) {
     setData((data) => ({ ...data, [e.target.name]: e.target.value }));
   }
 
   function handleSubmit(e) {
     e.preventDefault();
-
+  
     if (!data.title || !data.description) {
       setError("Title and description are required");
       return;
     }
-
+  
+    const updatedData = {
+      ...data,
+      dateAdded: new Date().toISOString(), // Update the dateAdded field with the current date
+    };
+  
     axios
-      .put(`http://localhost:4000/api/todo/${_id}`, data)
+      .put(`http://localhost:4000/api/todo/${_id}`, updatedData) // Use updatedData instead of data
       .then((res) => {
         setData({
           title: "",

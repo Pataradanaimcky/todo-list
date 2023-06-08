@@ -97,7 +97,7 @@ function App() {
       <div className="app-contents min-h-screen p-4 bg-slate-50 dark:bg-slate-950">
         <Routes>
           <Route path="/" element={<ShowTodoList />} />
-          <Route path="/create" element={<CreateTodo />} />
+          <Route path="/create-todo" element={<CreateTodo />} />
           <Route path="/calendar" element={<TodoCalendar />} />
         </Routes>
       </div>
