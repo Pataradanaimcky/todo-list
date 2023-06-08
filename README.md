@@ -62,3 +62,4 @@ npm start
 cd ../server
 npm start
 ```
+<span style="color:red;">**Note: The front end needs to be fixed, and the backend still requires login and signup functionality.**</span>
