@@ -7,7 +7,7 @@ import { UpdateTodo } from "./updateTodo";
 export function TodoCard({ data, handleEdit, handleDelete }) {
   const { _id, title, description, priority, dateAdded, status } = data;
 
-  const formattedDate = new Date(dateAdded).toLocaleDateString();
+  const formattedDate = formatDate(dateAdded);
 
   let statusColor = "";
   let statusText = "";
@@ -17,6 +17,14 @@ export function TodoCard({ data, handleEdit, handleDelete }) {
   } else if (status === "working") {
     statusColor = "bg-green-500";
     statusText = "Working";
+  }
+
+  function formatDate(date) {
+    const dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const day = String(dateObj.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   }
 
   const [showStatusPopup, setShowStatusPopup] = useState(false);

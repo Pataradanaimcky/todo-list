@@ -10,6 +10,8 @@ export function UpdateTodo({ _id, handleClose, handleUpdate }) {
     dateAdded: "",
   });
 
+  const [error, setError] = useState("");
+
   useEffect(() => {
     axios
       .get(`http://localhost:4000/api/todo/${_id}`)
@@ -29,6 +31,11 @@ export function UpdateTodo({ _id, handleClose, handleUpdate }) {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (!data.title || !data.description) {
+      setError("Title and description are required");
+      return;
+    }
 
     axios
       .put(`http://localhost:4000/api/todo/${_id}`, data)
@@ -54,6 +61,7 @@ export function UpdateTodo({ _id, handleClose, handleUpdate }) {
     <div className="max-w-md mx-auto my-0 bg-white dark:bg-gray-800 rounded-xl shadow-md dark:shadow-white overflow-hidden">
       <div className="p-4">
         <h2 className="text-2xl text-black dark:text-white mb-4">Update Todo</h2>
+        {error && <p className="text-red-500">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label className="text-2xl text-black dark:text-white" htmlFor="title">
