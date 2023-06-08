@@ -172,7 +172,7 @@ export function TodoCalendar() {
 
       {selectedDate && (
         <div className="mt-4">
-          <h3 className="text-black dark:text-whitetext-lg font-semibold">
+          <h3 className="text-black dark:text-white text-lg font-semibold">
             Todos for{" "}
             {selectedDate.toLocaleDateString("en-US", {
               year: "numeric",
