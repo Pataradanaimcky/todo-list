@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 
 export function CreateTodo() {
   const [data, setData] = useState({
@@ -8,7 +9,7 @@ export function CreateTodo() {
     description: "",
     priority: "",
     dateAdded: getCurrentDate(),
-    status: ""
+    status: "",
   });
   const [showDescriptionError, setShowDescriptionError] = useState(false);
   const [showCompleteMessage, setShowCompleteMessage] = useState(false);
@@ -30,18 +31,24 @@ export function CreateTodo() {
       description: data.description,
       priority: data.priority,
       dateAdded: data.dateAdded,
-      status: data.status
+      status: data.status,
+      userId: getUserIdFromToken(),
     };
 
+    const token = localStorage.getItem("token");
     axios
-      .post("http://localhost:4000/api/todo", todoData)
+      .post("http://localhost:4000/api/todo", todoData, {
+        headers: {
+          Authorization: token,
+        },
+      })
       .then((res) => {
         setData({
           title: "",
           description: "",
           priority: "",
           dateAdded: getCurrentDate(),
-          status: ""
+          status: "",
         });
         setShowDescriptionError(false);
         setShowCompleteMessage(true);
@@ -50,12 +57,21 @@ export function CreateTodo() {
       .catch((err) => {
         if (err.response && err.response.data) {
           console.log("Error couldn't create TODO");
-          console.log(err.response.data.error); // Log the specific error message
+          console.log(err);
         } else {
           console.log("Error couldn't create TODO");
-          console.log(err.message); // Log the general error message
+          console.log(err);
         }
       });
+  }
+
+  function getUserIdFromToken() {
+    const token = localStorage.getItem("token");
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      return decodedToken._id; // Extract the user ID from the decoded token
+    }
+    return null;
   }
 
   function handleDescriptionChange(e) {
@@ -170,31 +186,22 @@ export function CreateTodo() {
                 className="block w-full rounded-md border-0 py-2 px-3 text-gray-900 shadow-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-400"
               >
                 <option value="">Select a status</option>
-                <option value="working">Working</option>
-                <option value="completed">Completed</option>
+                <option value="working">working</option>
+                <option value="complete">Complete</option>
               </select>
             </div>
           </div>
-          <div className="flex justify-end">
+          <div className="flex items-center justify-between mt-6">
             <button
               type="submit"
-              className="bg-sky-500/75 hover:bg-sky-500 active:bg-sky-500/50 focus:outline-none focus:ring focus:ring-violet-300 rounded-full px-4 py-2 text-white dark:bg-indigo-500/75 dark:hover:bg-indigo-500 dark:active:bg-indigo-500"
+              className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             >
-              <svg
-                className="w-4 h-4 mr-2 -ml-1 inline-block align-text-bottom transform rotate-180"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-              </svg>
-              Create Todo
+              Create
             </button>
+            {showCompleteMessage && (
+              <p className="text-green-500">TODO created successfully!</p>
+            )}
           </div>
-          {showCompleteMessage && (
-            <p className="text-green-500 text-sm mt-4">Todo created successfully!</p>
-          )}
         </form>
       </div>
     </div>

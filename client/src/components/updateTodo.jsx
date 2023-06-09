@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import jwtDecode from "jwt-decode"; // Import jwtDecode
 
 export function UpdateTodo({ _id, handleClose, handleUpdate }) {
   const [data, setData] = useState({
@@ -37,29 +38,38 @@ export function UpdateTodo({ _id, handleClose, handleUpdate }) {
       return;
     }
   
+    const token = localStorage.getItem("token"); // Retrieve the JWT token
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken._id; // Retrieve the userId from the decoded token
+
     const updatedData = {
       ...data,
-      dateAdded: new Date().toISOString(), // Update the dateAdded field with the current date
+      dateAdded: new Date().toISOString(),
+      userId: userId, // Add the userId to the updatedData object
     };
-  
+
     axios
-      .put(`http://localhost:4000/api/todo/${_id}`, updatedData) // Use updatedData instead of data
-      .then((res) => {
-        setData({
-          title: "",
-          description: "",
-          status: "",
-          priority: "",
-          dateAdded: "",
-        });
-        console.log(res.data.message);
-        handleUpdate();
-        handleClose();
-      })
-      .catch((err) => {
-        console.log("Failed to update todo");
-        console.log(err.message);
+    .put(`http://localhost:4000/api/todo/${_id}`, updatedData, {
+      headers: {
+        Authorization: localStorage.getItem("token"),
+      },
+    })
+    .then((res) => {
+      setData({
+        title: "",
+        description: "",
+        priority: "",
+        status: "",
       });
+      console.log(res.data.message);
+      handleUpdate();
+      handleClose();
+    })
+    .catch((err) => {
+      console.log("Failed to update todo");
+      console.log(err.message);
+    });
+  
   }
 
   return (

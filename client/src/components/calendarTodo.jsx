@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { TodoCard } from "./showTodoList";
+import jwtDecode from "jwt-decode";
 
 export function TodoCalendar() {
   const [todos, setTodos] = useState([]);
@@ -10,8 +11,18 @@ export function TodoCalendar() {
   const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    const decodedToken = jwtDecode(token);
+    const userId = decodedToken._id;
+
+    const config = {
+      headers: {
+        Authorization: token,
+      },
+    };
+
     axios
-      .get("http://localhost:4000/api/todo")
+      .get(`http://localhost:4000/api/todo?userId=${userId}`, config)
       .then((res) => {
         setTodos(res.data);
       })
@@ -30,7 +41,6 @@ export function TodoCalendar() {
     setSelectedTodo(todo);
     setShowTodoCard(true);
   };
-
   const handlePrevMonth = () => {
     setSelectedMonth((prevMonth) => prevMonth - 1);
   };
@@ -172,7 +182,7 @@ export function TodoCalendar() {
 
       {selectedDate && (
         <div className="mt-4">
-          <h3 className="text-black dark:text-white text-lg font-semibold">
+          <h3 className="text-black dark:text-whitetext-lg font-semibold">
             Todos for{" "}
             {selectedDate.toLocaleDateString("en-US", {
               year: "numeric",

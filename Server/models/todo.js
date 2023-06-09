@@ -22,7 +22,15 @@ const TodoSchema = new mongoose.Schema({
     enum: ["working", "completed"],
     default: "working",
   },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
+
+module.exports = mongoose.model("Todo", TodoSchema);
+
 
 const Todo = mongoose.model("Todo", TodoSchema);
 

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import { UpdateTodo } from "./updateTodo";
-
+import jwtDecode from "jwt-decode";
 
 export function TodoCard({ data, handleEdit, handleDelete }) {
   const { _id, title, description, priority, dateAdded, status } = data;
@@ -82,8 +82,6 @@ export function TodoCard({ data, handleEdit, handleDelete }) {
   );
 }
 
-
-
 export function ShowTodoList() {
   const [todo, setTodo] = useState([]);
   const [open, setOpen] = useState(false);
@@ -91,15 +89,24 @@ export function ShowTodoList() {
   const [update, setUpdate] = useState(false);
 
   useEffect(() => {
-    axios
-      .get("http://localhost:4000/api/todo")
-      .then((res) => {
-        console.log(res.data);
-        setTodo(res.data);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
+    const fetchTodos = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken._id;
+
+        const response = await axios.get(`http://localhost:4000/api/todo?userId=${userId}`, {
+          headers: {
+            Authorization: token,
+          },
+        });
+        setTodo(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchTodos();
   }, [update]);
 
   function handleEdit(e) {
@@ -113,7 +120,12 @@ export function ShowTodoList() {
   }
 
   function handleDelete(e) {
-    axios.delete(`http://localhost:4000/api/todo/${e.target.name}`);
+    const token = localStorage.getItem("token");
+    axios.delete(`http://localhost:4000/api/todo/${e.target.name}`, {
+      headers: {
+        Authorization: token,
+      },
+    });
 
     setTodo((data) => {
       return data.filter((todo) => todo._id !== e.target.name);
@@ -153,7 +165,7 @@ export function ShowTodoList() {
           </div>
         </section>
         <section className="progress-section mt-4">
-        <p className="text-lg font-bold mb-4 dark:text-white">
+          <p className="text-lg font-bold mb-4 dark:text-white">
             Total Todos: {totalTodos} | Completed: {completedTodos}
           </p>
           <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-lg">
@@ -168,7 +180,6 @@ export function ShowTodoList() {
         {open && (
           <section className="update-container">
             <div className="update-contents">
-
               <UpdateTodo
                 _id={id}
                 handleClose={handleClose}
