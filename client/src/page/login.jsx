@@ -48,7 +48,7 @@ export function LoginPage() {
 
 
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen bg-slate-50 dark:bg-slate-950">
+    <div className="flex flex-col items-center justify-start min-h-screen bg-transparent dark:bg-transparent">
       <div className="max-w-3xl w-full mx-auto p-8 bg-white dark:bg-gray-800 shadow-md rounded-md mt-8">
         <div className="flex flex-col sm:flex-row items-center justify-center mb-4">
           <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
@@ -70,7 +70,7 @@ export function LoginPage() {
               </p>
             )}
             <form onSubmit={handleFormSubmit}>
-              <label className="block mb-2 text-gray-800 dark:text-white">
+              <label className="block text-gray-800 dark:text-white">
                 Email:
               </label>
               <input
@@ -78,9 +78,9 @@ export function LoginPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="form-input mt-1 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
+                className="form-input mb-3 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
               />
-              <label className="block mb-2 text-gray-800 dark:text-white">
+              <label className="block text-gray-800 dark:text-white">
                 Password:
               </label>
               <input
@@ -88,7 +88,7 @@ export function LoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="form-input mt-1 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
+                className="form-input  block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
               />
               <button
                 type="submit"

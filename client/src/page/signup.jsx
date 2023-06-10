@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import logo from "../image/draw2.svg";
 
 export function SignupPage() {
-  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
@@ -34,6 +33,7 @@ export function SignupPage() {
 
       if (response.ok) {
         setSignupSuccess(true); // Set signup success state
+
       } else {
         setErrorMessage(data.message);
       }
@@ -45,88 +45,88 @@ export function SignupPage() {
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-slate-50 dark:bg-slate-950">
-      <div className="max-w-3xl w-full mx-auto p-8 bg-white dark:bg-gray-800 shadow-md rounded-md mt-8">
+        <div className="max-w-3xl w-full mx-auto p-8 bg-white dark:bg-gray-800 shadow-md rounded-lg mt-8">
         <div className="flex flex-col sm:flex-row items-center justify-center mb-4">
-          <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
+            <div className="w-full sm:w-1/3 mb-4 sm:mb-0">
             <img
-              src={logo}
-              alt="Logo"
-              className="h-auto max-w-full object-contain"
-              style={{ maxWidth: "100%" }}
+                src={logo}
+                alt="Logo"
+                className="h-auto max-w-full object-contain"
+                style={{ maxWidth: "100%" }}
             />
-          </div>
-          <div className="border-r mx-4"></div>
-          <div className="w-2/3">
+            </div>
+            <div className="border-r mx-4"></div>
+            <div className="w-2/3">
             <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-4 text-center">
-              Signup
+                Signup
             </h2>
             {errorMessage && (
-              <p className="text-red-500 text-sm mb-4 text-center">
+                <p className="text-red-500 text-sm mb-4 text-center">
                 {errorMessage}
-              </p>
+                </p>
             )}
             {signupSuccess && (
-              <p className="text-green-500 text-sm mb-4 text-center">
+                <p className="text-green-500 text-sm mb-4 text-center">
                 Signup successful! Please login to continue.
-              </p>
+                </p>
             )}
             <form onSubmit={handleFormSubmit}>
-              <label className="block mb-2 text-gray-800 dark:text-white">
+                <label className="block text-gray-800 dark:text-white">
                 Name:
-              </label>
-              <input
+                </label>
+                <input
                 type="text"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
-                className="form-input mt-1 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
-              />
-              <label className="block mb-2 text-gray-800 dark:text-white">
+                className="form-input mb-3 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
+                />
+                <label className="block text-gray-800 dark:text-white">
                 Surname:
-              </label>
-              <input
+                </label>
+                <input
                 type="text"
                 value={surname}
                 onChange={(e) => setSurname(e.target.value)}
                 required
-                className="form-input mt-1 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
-              />
-              <label className="block mb-2 text-gray-800 dark:text-white">
+                className="form-input block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
+                />
+                <label className="mt-3 block text-gray-800 dark:text-white">
                 Email:
-              </label>
-              <input
+                </label>
+                <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="form-input mt-1 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
-              />
-              <label className="block mb-2 text-gray-800 dark:text-white">
+                className="form-input block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
+                />
+                <label className="mt-3 block text-gray-800 dark:text-white">
                 Password:
-              </label>
-              <input
+                </label>
+                <input
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                className="form-input mt-1 block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
-              />
-              <button
+                className="form-input block w-full border border-gray-300 shadow-sm dark:bg-gray-700 dark:text-white"
+                />
+                <button
                 type="submit"
                 className="bg-blue-500 text-white rounded px-4 py-2 w-full hover:bg-blue-600 mt-4"
-              >
+                >
                 Signup
-              </button>
+                </button>
             </form>
             <p className="mt-4 text-center text-gray-800 dark:text-white">
-              Already have an account?{" "}
-              <Link to="/login" className="text-blue-500 underline">
+                Already have an account?{" "}
+                <Link to="/login" className="text-blue-500 underline">
                 Login
-              </Link>
+                </Link>
             </p>
-          </div>
+            </div>
         </div>
-      </div>
+        </div>
     </div>
   );
 }

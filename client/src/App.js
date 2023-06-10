@@ -6,7 +6,6 @@ import { TodoCalendar } from "./components/calendarTodo";
 import { ThemeProvider, ThemeContext } from "./themeContext";
 import { LoginPage } from "./page/login";
 import { SignupPage } from "./page/signup";
-import jwtDecode from "jwt-decode";
 import { BrowserRouter } from "react-router-dom";
 import "./App.css";
 
@@ -14,7 +13,6 @@ function App() {
   const location = useLocation();
   const { theme, toggleTheme } = useContext(ThemeContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false); // Track login status
-  const [userName, setUserName] = useState(""); // Store the user name
 
   const navigate = useNavigate(); // Add the useNavigate hook
 
@@ -23,10 +21,6 @@ function App() {
     const token = localStorage.getItem("token");
     setIsLoggedIn(!!token);
     // Extract the user name from the token and set it in the state
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      setUserName(decodedToken.username);
-    }
 
     // Update document title when the location changes
     document.title = location.pathname; // Set the document title to the current pathname
@@ -52,6 +46,8 @@ function App() {
           theme === "light" ? "text-gray-800" : "text-slate-300"
         }`}
       >
+        <div className="relative">
+        <div className="absolute inset-0 bg-gradient-to-b from-blue-200 to-transparent w-full h-full z-0"></div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
@@ -85,6 +81,7 @@ function App() {
                       </svg>
                     )}
                   </button>
+                  </div>
               </div>
               <div>
                 <div className="ml-10 flex items-baseline space-x-4">
@@ -176,7 +173,7 @@ function App() {
           <Route path="/" element={<ShowTodoList />} />
           <Route path="/create-todo" element={<CreateTodo />} />
           <Route path="/calendar" element={<TodoCalendar />} />
-          <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} setUserName={setUserName} />} />
+          <Route path="/login" element={<LoginPage setIsLoggedIn={setIsLoggedIn} />} />
           <Route path="/signup" element={<SignupPage />} />
         </Routes>
       </div>
