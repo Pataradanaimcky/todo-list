@@ -46,8 +46,6 @@ function App() {
           theme === "light" ? "text-gray-800" : "text-slate-300"
         }`}
       >
-        <div className="relative">
-        <div className="absolute inset-0 bg-gradient-to-b from-blue-200 to-transparent w-full h-full z-0"></div>
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex h-16 items-center justify-between">
             <div className="flex items-center">
@@ -81,7 +79,6 @@ function App() {
                       </svg>
                     )}
                   </button>
-                  </div>
               </div>
               <div>
                 <div className="ml-10 flex items-baseline space-x-4">
