@@ -98,7 +98,7 @@ function App() {
                         }`}
                         aria-current={location.pathname === "/" ? "page" : undefined}
                       >
-                        All Todo Cards
+                        All
                       </Link>
                       <Link
                         to="/calendar"

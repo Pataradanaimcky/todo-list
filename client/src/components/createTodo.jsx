@@ -187,7 +187,7 @@ export function CreateTodo() {
               >
                 <option value="">Select a status</option>
                 <option value="working">working</option>
-                <option value="complete">Complete</option>
+                <option value="completed">Complete</option>
               </select>
             </div>
           </div>
